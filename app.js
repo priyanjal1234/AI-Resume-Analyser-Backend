@@ -20,18 +20,14 @@ app.use(
 
 app.post(
   "/api/get-feedback",
-  (req, res, next) => {
-    console.log("Request received... Checking multer middleware.");
-    next(); // Pass control to multer middleware
-  },
+
   upload.single("resume"),
   async function (req, res) {
     try {
-      console.log("Request comes... ");
       if (!req.file) {
         return res.status(400).json({ message: "Resume File is required" });
       }
-      console.log(req.file);
+
       const cloudinaryRes = await cloudinary.uploader.upload(req.file.path, {
         resource_type: "raw",
         type: "upload",
@@ -42,7 +38,7 @@ app.post(
         req.file.mimetype
       );
 
-      let result = await getAIResumeFeedback(extractRes)
+      let result = await getAIResumeFeedback(extractRes);
 
       return res.status(200).json({
         message: "Resume Uploaded Successfully",
