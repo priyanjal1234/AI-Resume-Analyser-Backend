@@ -5,6 +5,7 @@ import cors from "cors";
 import upload from "./config/multerConfig.js";
 import cloudinary from "./config/cloudinary.js";
 import extractText from "./utils/extractText.js";
+import getAIResumeFeedback from "./utils/getAIFeedback.js";
 
 const app = express();
 
@@ -18,7 +19,7 @@ app.use(
 );
 
 app.post(
-  "/api/upload-resume",
+  "/api/get-feedback",
   (req, res, next) => {
     console.log("Request received... Checking multer middleware.");
     next(); // Pass control to multer middleware
@@ -41,9 +42,11 @@ app.post(
         req.file.mimetype
       );
 
+      let result = await getAIResumeFeedback(extractRes)
+
       return res.status(200).json({
         message: "Resume Uploaded Successfully",
-        resume: req.file,
+        feedback: result,
       });
     } catch (error) {
       console.log(error);

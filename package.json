@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google/genai": "^0.7.0",
     "axios": "^1.8.4",
     "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
